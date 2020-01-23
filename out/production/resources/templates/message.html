@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src="./js/js.cookie.js"></script>
-
+    <script src="./js/jumpFunction.js"></script>
+    <script src="./js/messages.js"></script>
 
 </head>
 
@@ -19,7 +20,7 @@
 <div id = "wrap">
     <div class="regbar">
         <div class = "regbar-left" style="width:30%">
-            <img src = "./img/CoTube-logo.png" style = "margin-top:0px;" width = "125px" height = "50px" >
+            <img src = "./img/CoTube-logo.png" style = "margin-top:0px;" width = "125px" height = "50px" onclick="gohome()">
         </div>
 
         <div class = "regbar-mid" align="center">
@@ -33,13 +34,13 @@
 
 
         <div class = "regbar-right" style = "margin-top:7px;">
-            <input type="image" src = "./img/create.png" id="create" style = "margin-right:3px;" width = "35px" height = "35px" onclick="goCreate();">
-            <input type="image" src = "./img/home.png" id="home" style = "margin-right:3px;" width = "35px" height = "35px" onclick="gohome();">
-            <input type="image" src = "./img/message.png" id="message" style = "margin-right:3px;"  height = "35px" onclick="goMessage();">
-            <input type="image" src = "./img/profile.png" id="profile" style = "margin-right:3px;"  height = "35px" onclick="goProfile();">
-            <input type="image" src = "./img/setting.png" id="setting" style = "margin-right:3px;"  height = "35px" onclick="gotosetting();">
-            <input type="image" src = "./img/sign-in.png" id="login" style = "margin-right:3px;" width = "35px" height = "35px" onclick="login();">
-            <input type="image" src = "./img/sign-out.png" id="signout" style = "margin-right:3px;" width = "35px" height = "35px" onclick="logout();">
+            <input type="image" src = "../img/create.png" title="Create your comic!" id="create" style = "margin-right:3px;" width = "35px" height = "35px" onclick="goCreate();">
+            <input type="image" src = "../img/home.png" title="Home page" id="home" style = "margin-right:3px;" width = "35px" height = "35px" onclick="gohome();">
+            <input type="image" src = "../img/message.png" title="Message page" id="message" style = "margin-right:3px;"  height = "35px" onclick="goMessage();">
+            <input type="image" src = "../img/profile.png" title="Check your profile!" id="profile" style = "margin-right:3px;"  height = "35px" onclick="goProfile();">
+            <input type="image" src = "../img/setting.png" title="Setting page" id="setting" style = "margin-right:3px;"  height = "35px" onclick="gotosetting();">
+            <input type="image" src = "../img/sign-in.png" title="Log in" id="login" style = "margin-right:3px;" width = "35px" height = "35px" onclick="login();">
+            <input type="image" src = "../img/sign-out.png" title="Sign out" id="signout" style = "margin-right:3px;" width = "35px" height = "35px" onclick="logout();">
         </div>
 
 
@@ -49,10 +50,10 @@
 </div>
 
 <div>
-    <h1 style="font-size:35px; text-align:center; padding-top:10px">Message Center</h1>
+    <h1 style="font-size:35px; text-align:center; padding-top:10px;cursor:default">Message Center</h1>
     <div style="clear: both; margin-left: 5%; margin-right: 5%; font-weight: initial">
         <table class="messageTab">
-            <tbody>
+            <tbody id = "messageBody">
                 <tr>
                     <td style="text-align: left;">"userName" follows you</td>
                     <td style="text-align: right; font-size: 14px; font-weight: lighter">59 seconds before</td>
@@ -83,6 +84,11 @@
 
     if($.cookie('role')=="user"){
         document.getElementById("login").style.display = "none";
+    }else if($.cookie('role')=="admin"){
+        document.getElementById("login").style.display = "none";
+        document.getElementById("create").style.display = "none";
+        document.getElementById("profile").style.display = "none";
+        document.getElementById("home").onclick = function() { admingohome(); }
     }else{
         document.getElementById("create").style.display = "none";
         document.getElementById("signout").style.display = "none";
@@ -90,49 +96,9 @@
         document.getElementById("profile").style.display = "none";
         document.getElementById("setting").style.display = "none";
     }
-    function gohome(){
-        document.location.href="./index.html";
-    }
-
-    function goCreate(){
-        document.location.href="./createHome.html";
-    }
-
-    function goMessage() {
-        document.location.href="./message.html";
-    }
-
-    function gotosetting(){
-        document.location.href="./setting.html";
-    }
-
-    function goProfile(){
-        document.location.href="./profile.html";
-    }
-
-    function login(){
-        document.location.href="./login.html";
-    }
-
-    function logout(){
-        $.cookie('username', null);
-        $.cookie('role',"guest");
-        document.location.href="./index.html";
-    }
-
-    function searchResult() {
-        var word = document.getElementById("search_word").value;
-        $.cookie('search_word',word);
-        console.log($.cookie('search_word'));
-
-        var by = document.getElementById("search_by").value;
-        $.cookie('search_by',by);
-        console.log($.cookie('search_by'));
-        if(word!="")
-            document.location.href="./searchResult.html";
-    }
-
-
+    $( document ).ready(function() {
+        loadTable();
+    });
 </script>
 </body>
 

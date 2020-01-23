@@ -6,11 +6,12 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Profile</title>
 
-
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
     <link rel="stylesheet" href="./css/style.css">
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src="./js/js.cookie.js"></script>
+    <script src="./js/profile.js"></script>
+    <script src="./js/jumpFunction.js"></script>
 
 
 </head>
@@ -19,7 +20,7 @@
     <div id = "wrap">
         <div class="regbar">
             <div class = "regbar-left" style="width:30%">
-                    <img src = "./img/CoTube-logo.png" style = "margin-top:0px;" width = "125px" height = "50px" >
+                    <img src = "./img/CoTube-logo.png" style = "margin-top:0px;" width = "125px" height = "50px" onclick="gohome()">
             </div>
             <div class = "regbar-mid" align="center">
                 <input type="text" class="search_bar" name="search_word" id="search_word" size="35" placeholder="Input for searching...">
@@ -31,13 +32,13 @@
             </div>
 
             <div class = "regbar-right" style = "margin-top:7px;">
-                <input type="image" src = "./img/create.png" id="create" style = "margin-right:3px;" width = "35px" height = "35px" onclick="goCreate();">
-                <input type="image" src = "./img/home.png" id="home" style = "margin-right:3px;" width = "35px" height = "35px" onclick="gohome();">
-                <input type="image" src = "./img/message.png" id="message" style = "margin-right:3px;"  height = "35px" onclick="goMessage();">
-                <input type="image" src = "./img/profile.png" id="profile" style = "margin-right:3px;"  height = "35px"onclick="goProfile();" >
-                <input type="image" src = "./img/setting.png" id="setting" style = "margin-right:3px;"  height = "35px" onclick="gotosetting();">
-                <input type="image" src = "./img/sign-in.png" id="login" style = "margin-right:3px;" width = "35px" height = "35px" onclick="login();">
-                <input type="image" src = "./img/sign-out.png" id="signout" style = "margin-right:3px;" width = "35px" height = "35px" onclick="logout();">
+                <input type="image" src = "../img/create.png" title="Create your comic!" id="create" style = "margin-right:3px;" width = "35px" height = "35px" onclick="goCreate();">
+                <input type="image" src = "../img/home.png" title="Home page" id="home" style = "margin-right:3px;" width = "35px" height = "35px" onclick="gohome();">
+                <input type="image" src = "../img/message.png" title="Message page" id="message" style = "margin-right:3px;"  height = "35px" onclick="goMessage();">
+                <input type="image" src = "../img/profile.png" title="Check your profile!" id="profile" style = "margin-right:3px;"  height = "35px" onclick="goProfile();">
+                <input type="image" src = "../img/setting.png" title="Setting page" id="setting" style = "margin-right:3px;"  height = "35px" onclick="gotosetting();">
+                <input type="image" src = "../img/sign-in.png" title="Log in" id="login" style = "margin-right:3px;" width = "35px" height = "35px" onclick="login();">
+                <input type="image" src = "../img/sign-out.png" title="Sign out" id="signout" style = "margin-right:3px;" width = "35px" height = "35px" onclick="logout();">
             </div>
 
 
@@ -51,13 +52,18 @@
         <table>
             <tr>
                 <td>
-                    <img src = "./img/test/oldpp.jpg" style = "margin-left:25px;margin-right:25px;" width = "170px" height = "170px">
+
+                    <img src = "./img/test/oldpp.jpg" id="profilepicture" style = "margin-left:25px;margin-right:25px;" width = "170px" height = "170px">
                 </td>
                 <td>
-                    <p style = "font-size: 25px;">magicMaster996</p>
-                    <p style = "font-size: 25px;">56 Following | 23,645 Followers</p>
-                    <p style = "font-size: 25px;">1,345,391 Views | 38,691 Likes</p>
-                    <button type="button" class="submitButton" style = "border-radius: 5px;" id="follow">Follow</a>
+                    <span style = "font-size: 27px;cursor:default;" id = "profileusername"></span>
+                    <br>
+                    <span style = "font-size: 25px;cursor:default" id = "followings" onclick = "showFollowings();"></span>
+                    <span style = "font-size: 25px;cursor:default"> | </span>
+                    <span style = "font-size: 25px;cursor:default" id = "followers" onclick = "showFollowers();"></span>
+                    <p style = "font-size: 25px;cursor:default" id = "viewlike"></p>
+                    <button type="button" class="submitButton" style = "border-radius: 5px;" id="follow" onclick="followUser();">Follow</button>
+                    <button type="button" class="unfollowButton" style = "border-radius: 5px;display:none;" id="unfollow" onclick="unfollowUser();">Unfollow</button>
                 </td>
 
             </tr>
@@ -68,90 +74,119 @@
             </tr>
             <tr>
                 <td colspan=2>
-                    <span style = "font-size:25px;margin-left:23px;color:#0688fa;" id = "comicsbtn" onclick="showComics()">Comics</span>
-                    <span style = "font-size:25px;margin-left:23px;"> | </span>
-                    <span style = "font-size:25px;margin-left:23px;" id="favoritebtn" onclick="showFavorite()">Favorites</span>
+                    <span style = "font-size:25px;margin-left:23px;color:#0688fa;cursor: pointer" id = "comicsbtn" onclick="showComics()">Comics</span>
+                    <span style = "font-size:25px;margin-left:23px;cursor:default"> | </span>
+                    <span style = "font-size:25px;margin-left:23px;cursor: pointer" id="favoritebtn" onclick="showFavorite()">Favorites</span>
+                    <span style = "font-size:25px;margin-left:23px;cursor:default"> | </span>
+                    <span style = "font-size:25px;margin-left:23px;cursor: pointer" id="seriesbtn" onclick="showSeries()">Series following</span>
                 </td>
             </tr>
         </table>
-        <table id="comicstb">
-            <tr>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/t/1.jpg" style = "width:20vw;margin-left:2.5vw;" onclick="document.location.href='viewComics.html';">
-                    <br>
-                    <span style = "font-size:20px;margin-left:2.5vw;">Comic Title</span>
-                    <input type="image" src = "./img/delete.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <input type="image" src = "./img/edit-button.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/t/1.jpg" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:2.5vw;">Comic Title</span>
-                    <input type="image" src = "./img/delete.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <input type="image" src = "./img/edit-button.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/t/1.jpg" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:2.5vw;">Comic Title</span>
-                    <input type="image" src = "./img/delete.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <input type="image" src = "./img/edit-button.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/t/1.jpg" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:2.5vw;">Comic Title</span>
-                    <input type="image" src = "./img/delete.png" style = "margin-right:10%;float:right;" width = "25px" height = "25px">
-                    <input type="image" src = "./img/edit-button.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/t/1.jpg" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:2.5vw;">Comic Title</span>
-                    <input type="image" src = "./img/delete.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                    <input type="image" src = "./img/edit-button.png" style = "margin-right:5px;float:right;" width = "25px" height = "25px">
-                </td>
-            </tr>
+        <table id="comicstb"></table>
+
+        <table id="favoritetb" style = "display:none;"></table>
+
+        <table id="seriestb" style="display:none;"></table>
+
+        </div>
+
+        <table id="followingtb" style="display:none;border-collapse:separate; border-spacing:0px 10px;">
+        </table>
+        <table id="followertb" style="display:none;border-collapse:separate; border-spacing:0px 10px;">
         </table>
 
-        <table id="favoritetb" style = "display:none;">
-            <tr>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/folder.png" style = "width:20vw;margin-left:2.5vw;" onclick="document.location.href='favorite.html';">
-                    <br>
-                    <span style = "font-size:20px;margin-left:4.5vw;">Folder name 1</span>
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/folder.png" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:4.5vw;">Folder name 2</span>
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/folder.png" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:4.5vw;">Folder name 3</span>
-                    <br>
-                </td>
-                <td style = "width:23vw;padding-top:15px;">
-                    <img src="./img/folder.png" style = "width:20vw;margin-left:2.5vw;">
-                    <br>
-                    <span style = "font-size:20px;margin-left:4.5vw;">Folder name 4</span>
-                    <br>
-                </td>
-            </tr>
-        </table>
-        </div>
+        <div id="addPopup" class="modal">
+            <div class="modal-content" style="width: fit-content;">
+                <span id="x" class="close">&times;</span>
+                <table style="margin: auto; text-align: left; margin-top: 15px">
+                    <tr>
+                        <td style="text-align: right; padding-right: 5px"><label style="margin-bottom: 10px">Invite:</label></td>
+                        <td><input id="invite_people" class="form-control" style="width: 200px; margin-bottom:10px; display: inline-block" placeholder="input user name..."/></td>
+                        <td style="padding-left: 5px"><button class="kwbtn kwbtn2" id="addbtn" style="margin-top:0px; margin-bottom: 10px" onclick="addUserBelow()">+ add</button></td>
+                    </tr>
+                </table>
+
+                <div id="all" style="display: inline-flex; font-size: 18px; line-height: 100%;">
+                    <div>
+                        <div id="addhere1" style="display: none" class="addUser">
+                            <label id="add1name" ></label><label> </label>
+                            <span id="add1close" class="someclose" style="opacity:0.8" onclick="delete1()">&#10006;</span>
+                        </div>
+                        <div style="width: 100%; display: none" id="u1o">
+                            <select id="user1option">
+                                <option id="user1default" value=" ">Order</option>
+                                <option id="user1_2" value="2">2nd Panel</option>
+                                <option id="user1_3" value="3">3rd Panel</option>
+                                <option id="user1_4" value="4">4th Panel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="addhere2" style="display: none" class="addUser">
+                            <label id="add2name" ></label><label> </label>
+                            <span id="add2close" class="someclose" style="opacity:0.8" onclick="delete2()">&#10006;</span>
+                        </div>
+                        <div style="width: 100%; display: none" id="u2o">
+                            <select id="user2option">
+                                <option id="user2default" value=" ">Order</option>
+                                <option id="user2_2" value="2">2nd Panel</option>
+                                <option id="user2_3" value="3">3rd Panel</option>
+                                <option id="user2_4" value="4">4th Panel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="addhere3" style="display: none" class="addUser">
+                            <label id="add3name"></label><label> </label>
+                            <span id="add3close" class="someclose" style="opacity:0.8" onclick="delete3()">&#10006;</span>
+                        </div>
+                        <div style="width: 100%; display: none" id="u3o">
+                            <select id="user3option">
+                                <option id="user3default" value=" ">Order</option>
+                                <option id="user3_2" value="2">2nd Panel</option>
+                                <option id="user3_3" value="3">3rd Panel</option>
+                                <option id="user3_4" value="4">4th Panel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <h4 id="add_error1" style="color:red;display:none;margin-left:20px;font-weight: 300;cursor:default">User Does not Exist.</h4>
+                <h4 id="add_error2" style="color:red;display:none;margin-left:20px;font-weight: 300;cursor:default">You Have To Invite At Least One Person.</h4>
+                <h4 id="add_error3" style="color:red;display:none;margin-left:20px;font-weight: 300;cursor:default">Cannot Invite Same Person.</h4>
+                <h4 id="add_error4" style="color:red;display:none;margin-left:20px;font-weight: 300;cursor:default">Order Invalid, Order Can Nither Be Repeat Or Empty.</h4>
+                <h4 id="add_error5" style="color:red;display:none;margin-left:20px;font-weight: 300;cursor:default">Cannot Invite Yourself.</h4>
+                <br><button class="kwbtn kwbtn2" id="submitadd" >Submit</button>
+            </div>
+        </div>            
+        <script>
+            var modal = document.getElementById('addPopup');
+            var x1 = document.getElementById("x");
+            x1.onclick = function() {
+                modal.style.display = "none";
+                cleanpopup();
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    cleanpopup();
+                }
+            }
+        </script>
+
+
+
+
+
+
+
     <script>
         if($.cookie('role')=="user"){
             document.getElementById("login").style.display = "none";
+        }else if($.cookie('role')=="admin"){
+            document.getElementById("login").style.display = "none";
+            document.getElementById("create").style.display = "none";
+            document.getElementById("profile").style.display = "none";
+            document.getElementById("home").onclick = function() { admingohome(); }
         }else{
             document.getElementById("create").style.display = "none";
             document.getElementById("signout").style.display = "none";
@@ -159,60 +194,811 @@
             document.getElementById("profile").style.display = "none";
             document.getElementById("setting").style.display = "none";
         }
+        var p = $.cookie('profileUsername');
+        console.log("profileUsername: " + p);
+        document.getElementById("profileusername").innerText = $.cookie('profileUsername');
 
-        function gohome(){
-            document.location.href="./index.html";
+        var c = getFollowings(p);
+        document.getElementById("followings").innerText = c + " Followings";
+        var c = getFollowers(p);
+        document.getElementById("followers").innerText = c + " Followers";
+        var c = getViews(p);
+        var d = getLikes(p);
+        document.getElementById("viewlike").innerText = c + " Views  |  " + d +" Likes";
+        var c = getProfilePic(p);
+        document.getElementById("profilepicture").src = c;
+
+        if(checkFollow()){
+            document.getElementById("follow").style.display = "none";
+            document.getElementById("unfollow").style.display = "initial";
+        }else{
+            document.getElementById("unfollow").style.display = "none";
+            document.getElementById("follow").style.display = "initial";
+        }
+        if($.cookie("role")=="guest" || $.cookie("role")=="admin"){
+            document.getElementById("unfollow").style.display = "none";
+            document.getElementById("follow").style.display = "none";
+        }
+        //Comics table
+        if($.cookie("username")==$("#profileusername").text() || $.cookie("role")=="admin"){
+            document.getElementById("followings").style.cursor = "pointer";
+            document.getElementById("followers").style.cursor = "pointer";
+            $(window).ready(function() {
+                var tb = document.getElementById("comicstb");
+                var comics = getMyComics($("#profileusername").text());
+                console.log(comics);
+                for(var i = 0; i < comics.comicSeries.length; i+=4){
+                    var tr = document.createElement('tr');
+                    tb.appendChild(tr);
+                    for(let j = i; j < i+4 && j < comics.comicSeries.length; j++){
+                        var td = document.createElement('td');
+                        td.style.width = "23vw";
+                        td.style.paddingTop = "15px";
+                        tr.appendChild(td);
+                        var img = document.createElement('img');
+                        td.appendChild(img);
+                        img.src = comics.comicThumbnail[j]==null?"./img/white.png":comics.comicThumbnail[j];
+                        img.style.width = "20vw";
+                        img.style.height = "11.25vw";
+                        img.style.marginLeft = "2.5vw";
+                        if(!comics.comicGame[j] && comics.comicClick[j]){
+                            img.style.cursor = "pointer";
+                            img.addEventListener('click', function() {
+                                comicRedirect(comics.comicId[j],comics.comicSeries[j]);
+                            });
+                        }else{
+                            if(comics.comicGamePublished[j] && comics.comicClick[j]){
+                                img.style.cursor = "pointer";
+                                img.addEventListener('click', function() {
+                                    comicGameRedirect(comics.comicId[j]);
+                                });
+                            }else{
+                                if(comics.comicGame[j]){
+                                    img.title = "Game in process";
+                                }else{
+                                    img.title = "Need to publish";
+                                }
+                            }
+                        }
+                        
+                        var br1 = document.createElement('br');
+                        td.appendChild(br1);
+                        if(comics.comicSeries[j]){
+                            var img2 = document.createElement('img');
+                            td.appendChild(img2);
+                            img2.src = "./img/series-icon.png";
+                            img2.style.marginLeft = "2.5vw";
+                            img2.style.cssFloat = "left";
+                            img2.style.marginTop = "5px";
+                            img2.style.width = "19px";
+                            img2.style.cursor = "pointer";
+                            img2.addEventListener('click', function() {
+                                seriesRedirect(comics.comicSeriesId[j]);
+                            });
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 15) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,14)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            if(comics.comicClick[j]){
+                                span.style.cursor = "pointer";
+                                span.addEventListener('click', function() {
+                                    comicRedirect(comics.comicId[j],comics.comicSeries[j]);
+                                });
+                            }
+                        }else if(comics.comicGame[j]){
+                            var img2 = document.createElement('img');
+                            td.appendChild(img2);
+                            img2.src = "./img/game-icon.png";
+                            img2.style.marginLeft = "2.5vw";
+                            img2.style.cssFloat = "left";
+                            img2.style.marginTop = "5px";
+                            img2.style.width = "19px";
+                            if(comics.comicGamePublished[j]){
+                                img2.style.cursor = "pointer";
+                                img2.addEventListener('click', function() {
+                                    comicGameRedirect(comics.comicId[j]);
+                                });
+                            }
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 15) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,14)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            if(comics.comicGamePublished[j] && comics.comicClick[j]){
+                                span.style.cursor = "pointer";
+                                span.addEventListener('click', function() {
+                                    comicGameRedirect(comics.comicId[j]);
+                                });
+                            }
+                        }else{
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 17) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,16)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            span.style.marginLeft = "2.5vw";
+                            if(comics.comicClick[j]){
+                                span.style.cursor = "pointer";
+                                span.addEventListener('click', function() {
+                                    comicRedirect(comics.comicId[j],comics.comicSeries[j]);
+                                });
+                            }
+                        }
+                        
+                        if(!comics.comicGame[j]){
+                            var input1 = document.createElement('input');
+                            td.appendChild(input1);
+                            input1.type = "image";
+                            input1.src = "./img/delete.png";
+                            input1.style.marginRight = "5px";
+                            input1.style.cssFloat = "right";
+                            input1.style.width = "25px";
+                            input1.style.height = "25px";
+                            input1.addEventListener('click', function() {
+                                deleteComic(comics.comicId[j]);
+                            });
+                        }
+
+
+                        if($.cookie("role")!="admin" && !comics.comicGame[j]){
+                            var input2 = document.createElement('input');
+                            td.appendChild(input2);
+                            input2.type = "image";
+                            input2.src = "./img/edit-button.png";
+                            input2.style.marginRight = "5px";
+                            input2.style.cssFloat = "right";
+                            input2.style.width = "25px";
+                            input2.style.height = "25px";
+                            input2.addEventListener('click', function() {
+                                editRedirect(comics.comicId[j]);
+                            });
+                        }
+
+                        if(comics.comicGame[j] && comics.comicGamePublic[j]){
+                            var input1 = document.createElement('input');
+                            td.appendChild(input1);
+                            input1.type = "image";
+                            input1.src = "./img/public-icon.png";
+                            input1.style.marginRight = "5px";
+                            input1.style.cssFloat = "right";
+                            input1.style.width = "25px";
+                            input1.style.height = "25px";
+                            input1.addEventListener('click', function() {
+                                publicGameComic(comics.comicId[j]);
+                            });
+                        }
+
+                        if(comics.comicGame[j] && comics.comicGameEdit[j]){
+                            var input2 = document.createElement('input');
+                            td.appendChild(input2);
+                            input2.type = "image";
+                            input2.src = "./img/edit-button.png";
+                            input2.style.marginRight = "5px";
+                            input2.style.cssFloat = "right";
+                            input2.style.width = "25px";
+                            input2.style.height = "25px";
+                            input2.addEventListener('click', function() {
+                                editGameRedirect(comics.comicId[j],comics.comicGamePanelNo[j]);
+                            });
+                        }
+
+                        if(comics.comicGame[j] && comics.comicGameAdd[j]){
+                            var input3 = document.createElement('input');
+                            td.appendChild(input3);
+                            input3.type = "image";
+                            input3.src = "./img/addUser.png";
+                            input3.style.marginRight = "5px";
+                            input3.style.cssFloat = "right";
+                            input3.style.width = "25px";
+                            input3.style.height = "25px";
+                            input3.addEventListener('click', function() {
+                                cleanpopup();
+                                list_invite_user(comics.comicId[j]);
+                                var cid = comics.comicId[j];
+                                var modal = document.getElementById('addPopup');
+                                modal.style.display = "block";
+                                var btn = document.getElementById("submitadd");
+                                btn.addEventListener('click', function(){
+                                    console.log("cid:" + cid);
+                                    console.log("use:" + comics.comicId[j]);
+                                    submitadd(comics.comicId[j]);
+                                });
+                            });
+                        }
+                        var br2 = document.createElement('br');
+                        td.appendChild(br2);
+                    }
+                }
+            });
+        }else{
+            $(window).ready(function() {
+                var tb = document.getElementById("comicstb");
+                var comics = getOthersComics($("#profileusername").text());
+                console.log(comics);
+                for(var i = 0; i < comics.comicSeries.length; i+=4){
+                    var tr = document.createElement('tr');
+                    tb.appendChild(tr);
+                    for(let j = i; j < i+4 && j < comics.comicSeries.length; j++){
+                        var td = document.createElement('td');
+                        td.style.width = "23vw";
+                        td.style.paddingTop = "15px";
+                        tr.appendChild(td);
+                        var img = document.createElement('img');
+                        td.appendChild(img);
+                        img.src = comics.comicThumbnail[j]==null?"./img/white.png":comics.comicThumbnail[j];
+                        img.style.width = "20vw";
+                        img.style.height = "11.25vw";
+                        img.style.marginLeft = "2.5vw";
+                        if(comics.comicGame[j]){
+                            img.style.cursor = "pointer";
+                            img.addEventListener('click', function() {
+                                comicGameRedirect(comics.comicId[j]);
+                            });
+                        }else{
+                            img.style.cursor = "pointer";
+                            img.addEventListener('click', function() {
+                                comicRedirect(comics.comicId[j],comics.comicSeries[j]);
+                            });
+                        }
+                        
+                        var br1 = document.createElement('br');
+                        td.appendChild(br1);
+                        if(comics.comicSeries[j]){
+                            var img2 = document.createElement('img');
+                            td.appendChild(img2);
+                            img2.src = "./img/series-icon.png";
+                            img2.style.marginLeft = "2.5vw";
+                            img2.style.cssFloat = "left";
+                            img2.style.marginTop = "5px";
+                            img2.style.width = "19px";
+                            img2.style.cursor = "pointer";
+                            img2.addEventListener('click', function() {
+                                seriesRedirect(comics.comicSeriesId[j]);
+                            });
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 17) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,16)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            span.style.cursor = "pointer";
+                            span.addEventListener('click', function() {
+                                comicRedirect(comics.comicId[j],comics.comicSeries[j]);
+                            });
+                            
+                        }else if(comics.comicGame[j]){
+                            var img2 = document.createElement('img');
+                            td.appendChild(img2);
+                            img2.src = "./img/game-icon.png";
+                            img2.style.marginLeft = "2.5vw";
+                            img2.style.cssFloat = "left";
+                            img2.style.marginTop = "5px";
+                            img2.style.width = "19px";
+                            img2.style.cursor = "pointer";
+                            img2.addEventListener('click', function() {
+                                comicGameRedirect(comics.comicId[j]);
+                            });
+                           
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 17) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,16)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            span.style.cursor = "pointer";
+                            span.addEventListener('click', function() {
+                                comicGameRedirect(comics.comicId[j]);
+                            });
+
+                        }else{
+                            var span = document.createElement('span');
+                            if(comics.comicName[j].length > 17) {
+                                comics.comicName[j] = comics.comicName[j].substring(0,16)+"...";
+                            }
+                            var t = document.createTextNode(comics.comicName[j]);
+                            span.appendChild(t);
+                            td.appendChild(span);
+                            span.style.fontSize = "20px";
+                            span.style.marginLeft = "2.5vw";
+                            span.style.cursor = "pointer";
+                            span.addEventListener('click', function() {
+                                comicGameRedirect(comics.comicId[j]);
+                            });
+                            
+                        }
+                        
+                        var br2 = document.createElement('br');
+
+                        td.appendChild(br2);
+                    }
+                }
+            });
+
         }
 
-        function goCreate(){
-            document.location.href="./createHome.html";
+
+        //Follower/Following list
+        if($.cookie("username")==$("#profileusername").text()){
+            document.getElementById("unfollow").style.display = "none";
+            document.getElementById("follow").style.display = "none";
+
+            $(window).ready(function() {
+                var followerlist = getFollowerList($.cookie('profileUsername'));
+                var followinglist = getFollowingList($.cookie('profileUsername'));
+                console.log(followerlist.account[0]);
+
+                // follower table
+                var tbodyfollower = document.getElementById("followertb");
+                for(let i=0;i<followerlist.account.length;i+=4){
+                    var tr = document.createElement('tr');
+                    tr.style.width = "100%";
+                    tbodyfollower.appendChild(tr);
+                    var td11 = document.createElement('td');
+                    var td12 = document.createElement('td');
+                    td11.style.paddingBottom = "2vw";
+                    td12.style.paddingBottom = "2vw";
+                    td12.style.paddingLeft = "1vw";
+                    td12.style.width = "16.5vw";
+                    tr.appendChild(td11);
+                    tr.appendChild(td12);
+                    var img1 = document.createElement('img');
+                    img1.src = followerlist.picpath[i];
+                    img1.style.marginLeft = "2.5vw";
+                    img1.style.height = "5vw";
+                    img1.style.width = "5vw";
+                    td11.appendChild(img1);
+                    var span1 = document.createElement('span');
+                    span1.style.fontSize = "2vw";
+                    var t = document.createTextNode(followerlist.account[i]);
+                    span1.appendChild(t);
+                    td12.appendChild(span1);
+                    td11.style.cursor = "pointer";
+                    td12.style.cursor = "pointer";
+                    td11.addEventListener('click', function() {
+                        authorprofile(followerlist.account[i]);
+                    });
+                    td12.addEventListener('click', function() {
+                        authorprofile(followerlist.account[i]);
+                    });
+
+                    // i=1, second one
+                    var td21 = document.createElement('td');
+                    var td22 = document.createElement('td');
+                    td21.style.paddingBottom = "2vw";
+                    td22.style.paddingBottom = "2vw";
+                    td22.style.paddingLeft = "1vw";
+                    td22.style.width = "16.5vw";
+                    tr.appendChild(td21);
+                    tr.appendChild(td22);
+                    if(i+1<followerlist.account.length){
+                        var img2 = document.createElement('img');
+                        img2.src = followerlist.picpath[i+1];
+                        img2.style.marginLeft = "2.5vw";
+                        img2.style.height = "5vw";
+                        img2.style.width = "5vw";
+                        td21.appendChild(img2);
+                        var span2 = document.createElement('span');
+                        span2.style.fontSize = "2vw";
+                        var t = document.createTextNode(followerlist.account[i+1]);
+                        span2.appendChild(t);
+                        td22.appendChild(span2);
+                        td21.style.cursor = "pointer";
+                        td22.style.cursor = "pointer";
+                        td21.addEventListener('click', function() {
+                        authorprofile(followerlist.account[i+1]);
+                        });
+                        td22.addEventListener('click', function() {
+                            authorprofile(followerlist.account[i+1]);
+                        });
+                    }
+
+                    // i=2, third one
+                    var td31 = document.createElement('td');
+                    var td32 = document.createElement('td');
+                    td31.style.paddingBottom = "2vw";
+                    td32.style.paddingBottom = "2vw";
+                    td32.style.paddingLeft = "1vw";
+                    td32.style.width = "16.5vw";
+                    tr.appendChild(td31);
+                    tr.appendChild(td32);
+                    if(i+2<followerlist.account.length){
+                        var img3 = document.createElement('img');
+                        img3.src = followerlist.picpath[i+2];
+                        img3.style.marginLeft = "2.5vw";
+                        img3.style.height = "5vw";
+                        img3.style.width = "5vw";
+                        td31.appendChild(img3);
+                        var span3 = document.createElement('span');
+                        span3.style.fontSize = "2vw";
+                        var t = document.createTextNode(followerlist.account[i+2]);
+                        span3.appendChild(t);
+                        td32.appendChild(span3);
+                        td31.style.cursor = "pointer";
+                        td32.style.cursor = "pointer";
+                        td31.addEventListener('click', function() {
+                        authorprofile(followerlist.account[i+2]);
+                        });
+                        td32.addEventListener('click', function() {
+                            authorprofile(followerlist.account[i+2]);
+                        });
+                    }
+
+                    // i=3, 4th one
+                    var td41 = document.createElement('td');
+                    var td42 = document.createElement('td');
+                    td41.style.paddingBottom = "2vw";
+                    td42.style.paddingBottom = "2vw";
+                    td42.style.paddingLeft = "1vw";
+                    td42.style.width = "16.5vw";
+                    tr.appendChild(td41);
+                    tr.appendChild(td42);
+                    if(i+3<followerlist.account.length){
+                        var img4 = document.createElement('img');
+                        img4.src = followerlist.picpath[i+3];
+                        img4.style.marginLeft = "2.5vw";
+                        img4.style.height = "5vw";
+                        img4.style.width = "5vw";
+                        td41.appendChild(img4);
+                        var span4 = document.createElement('span');
+                        span4.style.fontSize = "2vw";
+                        var t = document.createTextNode(followerlist.account[i+3]);
+                        span4.appendChild(t);
+                        td42.appendChild(span4);
+                        td41.style.cursor = "pointer";
+                        td42.style.cursor = "pointer";
+                        td41.addEventListener('click', function() {
+                        authorprofile(followerlist.account[i+3]);
+                        });
+                        td42.addEventListener('click', function() {
+                            authorprofile(followerlist.account[i+3]);
+                        });
+                    }
+                }
+
+                // following table
+                var tbodyfollowing = document.getElementById("followingtb");
+                for(let i=0;i<followinglist.account.length;i+=4){
+                    var tr = document.createElement('tr');
+                    tr.style.width = "100%";
+                    tbodyfollowing.appendChild(tr);
+                    var td11 = document.createElement('td');
+                    var td12 = document.createElement('td');
+                    td11.style.paddingBottom = "2vw";
+                    td12.style.paddingBottom = "2vw";
+                    td12.style.paddingLeft = "1vw";
+                    td12.style.width = "16.5vw";
+                    tr.appendChild(td11);
+                    tr.appendChild(td12);
+                    var img1 = document.createElement('img');
+                    img1.src = followinglist.picpath[i];
+                    img1.style.marginLeft = "2.5vw";
+                    img1.style.height = "5vw";
+                    img1.style.width = "5vw";
+                    td11.appendChild(img1);
+                    var span1 = document.createElement('span');
+                    span1.style.fontSize = "2vw";
+                    var t = document.createTextNode(followinglist.account[i]);
+                    span1.appendChild(t);
+                    td12.appendChild(span1);
+                    td11.style.cursor = "pointer";
+                    td12.style.cursor = "pointer";
+                    td11.addEventListener('click', function() {
+                        authorprofile(followinglist.account[i]);
+                    });
+                    td12.addEventListener('click', function() {
+                        authorprofile(followinglist.account[i]);
+                    });
+
+                    // i=1, second one
+                    var td21 = document.createElement('td');
+                    var td22 = document.createElement('td');
+                    td21.style.paddingBottom = "2vw";
+                    td22.style.paddingBottom = "2vw";
+                    td22.style.paddingLeft = "1vw";
+                    td22.style.width = "16.5vw";
+                    tr.appendChild(td21);
+                    tr.appendChild(td22);
+                    if(i+1<followinglist.account.length){
+                        var img2 = document.createElement('img');
+                        img2.src = followinglist.picpath[i+1];
+                        img2.style.marginLeft = "2.5vw";
+                        img2.style.height = "5vw";
+                        img2.style.width = "5vw";
+                        td21.appendChild(img2);
+                        var span2 = document.createElement('span');
+                        span2.style.fontSize = "2vw";
+                        var t = document.createTextNode(followinglist.account[i+1]);
+                        span2.appendChild(t);
+                        td22.appendChild(span2);
+                        td21.style.cursor = "pointer";
+                        td22.style.cursor = "pointer";
+                        td21.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+1]);
+                        });
+                        td22.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+1]);
+                        });
+                    }
+
+                    // i=2, third one
+                    var td31 = document.createElement('td');
+                    var td32 = document.createElement('td');
+                    td31.style.paddingBottom = "2vw";
+                    td32.style.paddingBottom = "2vw";
+                    td32.style.paddingLeft = "1vw";
+                    td32.style.width = "16.5vw";
+                    tr.appendChild(td31);
+                    tr.appendChild(td32);
+                    if(i+2<followinglist.account.length){
+                        var img3 = document.createElement('img');
+                        img3.src = followinglist.picpath[i+2];
+                        img3.style.marginLeft = "2.5vw";
+                        img3.style.height = "5vw";
+                        img3.style.width = "5vw";
+                        td31.appendChild(img3);
+                        var span3 = document.createElement('span');
+                        span3.style.fontSize = "2vw";
+                        var t = document.createTextNode(followinglist.account[i+2]);
+                        span3.appendChild(t);
+                        td32.appendChild(span3);
+                        td31.style.cursor = "pointer";
+                        td32.style.cursor = "pointer";
+                        td31.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+2]);
+                        });
+                        td32.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+2]);
+                        });
+                    }
+
+                    // i=3, 4th one
+                    var td41 = document.createElement('td');
+                    var td42 = document.createElement('td');
+                    td41.style.paddingBottom = "2vw";
+                    td42.style.paddingBottom = "2vw";
+                    td42.style.paddingLeft = "1vw";
+                    td42.style.width = "16.5vw";
+                    tr.appendChild(td41);
+                    tr.appendChild(td42);
+                    if(i+3<followinglist.account.length){
+                        var img4 = document.createElement('img');
+                        img4.src = followinglist.picpath[i+3];
+                        img4.style.marginLeft = "2.5vw";
+                        img4.style.height = "5vw";
+                        img4.style.width = "5vw";
+                        td41.appendChild(img4);
+                        var span4 = document.createElement('span');
+                        span4.style.fontSize = "2vw";
+                        var t = document.createTextNode(followinglist.account[i+3]);
+                        span4.appendChild(t);
+                        td42.appendChild(span4);
+                        td41.style.cursor = "pointer";
+                        td42.style.cursor = "pointer";
+                        td41.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+3]);
+                        });
+                        td42.addEventListener('click', function() {
+                            authorprofile(followinglist.account[i+3]);
+                        });
+                    }
+                }
+            });
+        }else{
+            document.getElementById("followings").onclick = false;
+            document.getElementById("followers").onclick = false;
         }
 
-        function goMessage() {
-            document.location.href="./message.html";
+        //Favorite folder
+        if($.cookie("username")==$("#profileusername").text()){
+            $(window).ready(function() {
+                var tb = document.getElementById("favoritetb");
+                var folders = getMyFavorites($("#profileusername").text());
+                console.log(folders);
+                for(var i = 0; i<folders.folderName.length; i+=4){
+                    var tr = document.createElement('tr');
+                    tb.appendChild(tr);
+                    for(let j = i; j < i+4 && j < folders.folderName.length; j++){
+                        var td = document.createElement('td');
+                        td.style.width = "23vw";
+                        td.style.paddingTop = "15px";
+                        tr.appendChild(td);
+                        var img = document.createElement('img');
+                        td.appendChild(img);
+                        img.src = "./img/folder.png";
+                        img.style.width = "20vw";
+                        img.style.marginLeft = "2.5vw";
+                        img.style.cursor = "pointer";
+                        img.addEventListener('click', function() {
+                            favoriteRedirect(folders.folderId[j]);
+                        });
+                        console.log(folders.folderId[j]);
+                        var br1 = document.createElement('br');
+                        td.appendChild(br1);
+                        var span = document.createElement('span');
+                        if(folders.folderName[j].length > 25) {
+                            folders.folderName[j] = folders.folderName[j].substring(0,24)+"...";
+                        }
+                        var t = document.createTextNode(folders.folderName[j]);
+                        span.appendChild(t);
+                        span.style.cursor = "pointer";
+                        span.addEventListener('click', function() {
+                            favoriteRedirect(folders.folderId[j]);
+                        });
+                        td.appendChild(span);
+                        span.style.fontSize = "20px";
+                        span.style.marginLeft = "4.5vw";
+                        var br2 = document.createElement('br');
+                        td.appendChild(br2);
+                    }
+
+                }
+            });
+        }else{
+            $(window).ready(function() {
+                var tb = document.getElementById("favoritetb");
+                var folders = getPublicFavorites($("#profileusername").text());
+                console.log(folders);
+                for(var i = 0; i<folders.folderName.length; i+=4){
+                    var tr = document.createElement('tr');
+                    tb.appendChild(tr);
+                    for(let j = i; j < i+4 && j < folders.folderName.length; j++){
+                        var td = document.createElement('td');
+                        td.style.width = "23vw";
+                        td.style.paddingTop = "15px";
+                        tr.appendChild(td);
+                        var img = document.createElement('img');
+                        td.appendChild(img);
+                        img.src = "./img/folder.png";
+                        img.style.width = "20vw";
+                        img.style.marginLeft = "2.5vw";
+                        img.style.cursor = "pointer";
+                        img.addEventListener('click', function() {
+                            favoriteRedirect(folders.folderId[j]);
+                        });
+                        console.log(folders.folderId[j]);
+                        var br1 = document.createElement('br');
+                        td.appendChild(br1);
+                        var span = document.createElement('span');
+                        if(folders.folderName[j].length > 25) {
+                            folders.folderName[j] = folders.folderName[j].substring(0,24)+"...";
+                        }
+                        var t = document.createTextNode(folders.folderName[j]);
+                        span.appendChild(t);
+                        td.appendChild(span);
+                        span.style.fontSize = "20px";
+                        span.style.marginLeft = "4.5vw";
+                        span.style.cursor = "pointer";
+                        span.addEventListener('click', function() {
+                            favoriteRedirect(folders.folderId[j]);
+                        });
+                        var br2 = document.createElement('br');
+                        td.appendChild(br2);
+                    }
+
+                }
+            });
         }
 
-        function gotosetting(){
-            document.location.href="./setting.html";
-        }
-
-        function goProfile(){
-            document.location.href="./profile.html";
-        }
-
-        function login(){
-            document.location.href="./login.html";
-        }
-
-        function logout(){
-            $.cookie('username', null);
-            $.cookie('role',"guest");
-            document.location.href="./index.html";
-        }
-
+        //Series following
+        $(window).ready(function() {
+            var tb = document.getElementById("seriestb");
+            var series = getSeries($("#profileusername").text());
+            console.log(series);
+            for(var i = 0; i < series.seriesId.length; i+=4){
+                var tr = document.createElement('tr');
+                tb.appendChild(tr);
+                for(let j = i; j < i+4 && j < series.seriesId.length; j++){
+                    var td = document.createElement('td');
+                    td.style.width = "23vw";
+                    td.style.paddingTop = "15px";
+                    tr.appendChild(td);
+                    var img = document.createElement('img');
+                    td.appendChild(img);
+                    img.src = series.seriesThumbnail[j];
+                    img.style.width = "20vw";
+                    img.style.height = "11.25vw";
+                    img.style.marginLeft = "2.5vw";
+                    img.style.cursor = "pointer";
+                    img.addEventListener('click', function() {
+                        seriesRedirect(series.seriesId[j]);
+                    });
+                    var br1 = document.createElement('br');
+                    td.appendChild(br1);
+                    var span = document.createElement('span');
+                    if(series.seriesName[j].length > 25) {
+                        series.seriesName[j] = series.seriesName[j].substring(0,24)+"...";
+                    }
+                    var t = document.createTextNode(series.seriesName[j]);
+                    span.appendChild(t);
+                    td.appendChild(span);
+                    span.style.fontSize = "20px";
+                    span.style.marginLeft = "2.5vw";
+                    span.style.cursor = "pointer";
+                    span.addEventListener('click', function() {
+                        seriesRedirect(series.seriesId[j]);
+                    });
+                }
+            }
+        });
+        
         function showComics(){
             document.getElementById("favoritetb").style.display = "none";
+            document.getElementById("seriestb").style.display = "none";
+            document.getElementById("followingtb").style.display = "none";
+            document.getElementById("followertb").style.display = "none";
             document.getElementById("comicstb").style.display = "initial";
             document.getElementById("comicsbtn").style.color = "#0688fa";
             document.getElementById("favoritebtn").style.color = "#FFFFFF";
+            document.getElementById("seriesbtn").style.color = "#FFFFFF";
+            document.getElementById("followings").style.color = "#FFFFFF";
+            document.getElementById("followers").style.color = "#FFFFFF";
             
         }
 
         function showFavorite(){
             document.getElementById("comicstb").style.display = "none";
+            document.getElementById("seriestb").style.display = "none";
+            document.getElementById("followingtb").style.display = "none";
+            document.getElementById("followertb").style.display = "none";
             document.getElementById("favoritetb").style.display = "initial";
             document.getElementById("comicsbtn").style.color = "#FFFFFF";
+            document.getElementById("seriesbtn").style.color = "#FFFFFF";
             document.getElementById("favoritebtn").style.color = "#0688fa";
+            document.getElementById("followings").style.color = "#FFFFFF";
+            document.getElementById("followers").style.color = "#FFFFFF";
         }
 
-        function searchResult() {
-            var word = document.getElementById("search_word").value;
-            $.cookie('search_word',word);
+        function showSeries(){
+            document.getElementById("comicstb").style.display = "none";
+            document.getElementById("favoritetb").style.display = "none";
+            document.getElementById("followingtb").style.display = "none";
+            document.getElementById("followertb").style.display = "none";
+            document.getElementById("seriestb").style.display = "initial";
+            document.getElementById("comicsbtn").style.color = "#FFFFFF";
+            document.getElementById("seriesbtn").style.color= "#0688fa";
+            document.getElementById("favoritebtn").style.color = "#FFFFFF";
+            document.getElementById("followings").style.color = "#FFFFFF";
+            document.getElementById("followers").style.color = "#FFFFFF";
+        }
 
-            var by = document.getElementById("search_by").value;
-            $.cookie('search_by',by);
-            if(word!="")
-                document.location.href="./searchResult.html";
+        function showFollowings(){
+            document.getElementById("comicstb").style.display = "none";
+            document.getElementById("favoritetb").style.display = "none";
+            document.getElementById("seriestb").style.display = "none";
+            document.getElementById("followertb").style.display = "none";
+            document.getElementById("followingtb").style.display = "initial";
+            document.getElementById("comicsbtn").style.color = "#FFFFFF";
+            document.getElementById("seriesbtn").style.color= "#FFFFFF";
+            document.getElementById("favoritebtn").style.color = "#FFFFFF";
+            document.getElementById("followings").style.color = "#0688fa";
+            document.getElementById("followers").style.color = "#FFFFFF";
+        }
+
+        function showFollowers(){
+            document.getElementById("comicstb").style.display = "none";
+            document.getElementById("favoritetb").style.display = "none";
+            document.getElementById("seriestb").style.display = "none";
+            document.getElementById("followingtb").style.display = "none";
+            document.getElementById("followertb").style.display = "initial";
+            document.getElementById("comicsbtn").style.color = "#FFFFFF";
+            document.getElementById("seriesbtn").style.color= "#FFFFFF";
+            document.getElementById("favoritebtn").style.color = "#FFFFFF";
+            document.getElementById("followings").style.color = "#FFFFFF";
+            document.getElementById("followers").style.color = "#0688fa";
         }
 
 
